@@ -1,0 +1,16 @@
+@import "../../common/styles/colors";
+@import "../../common/styles/template";
+
+.nav_item {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.2em;
+  text-transform: uppercase;
+
+  .nav_link {
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
+}

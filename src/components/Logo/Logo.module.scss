@@ -1,0 +1,14 @@
+@import "../../common/styles/colors";
+@import "../../common/styles/template";
+
+.logo {
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.2em;
+  text-transform: uppercase;
+  
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}

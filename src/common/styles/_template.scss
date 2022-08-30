@@ -1,0 +1,26 @@
+@import './colors';
+
+%container{
+  max-width: 1230px;
+  width: 100%;
+
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+%color_dark_theme {
+  color: $color-white;
+}
+
+%color_light_theme {
+  color: $color-black;
+}
+
+%bg_dark_theme {
+  background-color: $color-black;
+}
+
+%bg_light_theme {
+  background-color: $color-light-grey;
+}
+

@@ -1,0 +1,38 @@
+@import "../../common/styles/colors";
+@import "../../common/styles/template";
+
+.footer {
+  .container {
+    @extend %container;
+
+    .footer_inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 70px;
+
+      .footer_text{
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 1.2em;
+      }
+    }
+  }
+}
+
+.bg_light_theme {
+  @extend %bg_light_theme;
+}
+
+.bg_dark_theme {
+  @extend %bg_dark_theme;
+}
+
+.color_light_theme {
+  @extend %color_dark_theme;
+}
+
+.color_dark_theme {
+  @extend %color_light_theme;
+}

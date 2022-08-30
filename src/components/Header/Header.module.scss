@@ -1,0 +1,41 @@
+@import "../../common/styles/colors";
+@import "../../common/styles/template";
+
+.header {
+  .container {
+    @extend %container;
+
+    .header_inner {
+      display: flex;
+      align-items: center;
+
+      height: 70px;
+
+      .box_theme {
+        margin-left: auto;
+
+        cursor: pointer;
+
+        .btn_theme {
+          font-size: 30px;
+        }
+      }
+    }
+  }
+}
+
+.bg_light_theme {
+  @extend %bg_light_theme;
+}
+
+.bg_dark_theme {
+  @extend %bg_dark_theme;
+}
+
+.color_light_theme {
+  @extend %color_dark_theme;
+}
+
+.color_dark_theme {
+  @extend %color_light_theme;
+}

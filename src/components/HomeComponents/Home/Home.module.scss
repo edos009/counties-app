@@ -1,0 +1,33 @@
+@import "../../../common/styles/colors";
+@import "../../../common/styles/template";
+
+.home {
+  flex-grow: 1;
+  .container {
+    @extend %container;
+
+    .home_inner {
+      .home_title{
+        margin-top: 15px;
+
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.bg_light_theme {
+  @extend %bg_light_theme;
+}
+
+.color_light_theme {
+  @extend %color_dark_theme;
+}
+
+.color_dark_theme {
+  @extend %color_light_theme;
+}
