@@ -12,6 +12,7 @@ import {
   setInputValueAC,
 } from "../../../actions/actionCountries";
 import { loadCountries } from "../../../api";
+import Spinner from "../../Spinner";
 
 import styles from "./Countries.module.scss";
 
@@ -87,7 +88,7 @@ const Countries = (props) => {
             placeholder="Search..."
           />
           {isFetching ? (
-            <div>Loading...</div>
+            <Spinner />
           ) : error ? (
             <div>Error</div>
           ) : (
