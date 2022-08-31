@@ -1,0 +1,75 @@
+@import "../../../common/styles/colors";
+@import "../../../common/styles/template";
+
+.card {
+  flex-basis: 390px;
+
+  border-radius: 3px;
+  margin-bottom: 20px;
+
+  cursor: pointer;
+
+  &_box_img {
+    width: 90%;
+    height: 220px;
+
+    margin: 20px auto;
+
+    .card_img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &_box_info {
+    position: relative;
+    margin: 0 20px 20px;
+
+    .card_name,
+    .card_capital,
+    .card_region,
+    .card_population {
+      margin-bottom: 2px;
+
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.2em;
+    }
+
+    .card_capital span,
+    .card_region span,
+    .card_population span {
+      font-weight: 700;
+      border-bottom: 2px solid;
+    }
+
+    .card_name {
+      margin-bottom: 20px;
+
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1.2em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  }
+}
+
+.bg_light_theme {
+  @extend %bg_light_theme;
+}
+
+.bg_dark_theme {
+  @extend %bg_dark_theme;
+}
+
+.color_light_theme {
+  @extend %color_dark_theme;
+}
+
+.color_dark_theme {
+  @extend %color_light_theme;
+}
