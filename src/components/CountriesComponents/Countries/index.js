@@ -21,7 +21,14 @@ const { THEMES } = CONSTANTS;
 const Countries = (props) => {
   const {
     theme: { theme },
-    countries: { countries, error, isFetching, inputValue },
+    countries: {
+      countries,
+      error,
+      isFetching,
+      inputValue,
+      checkedCountries,
+      removedCountries,
+    },
     dataResponseSuccess,
     dataResponseError,
     dataResponseIsFetchingFalse,
@@ -68,11 +75,21 @@ const Countries = (props) => {
   const renderCountries = useCallback(
     () =>
       countries
-        .filter((country) =>
-          country.name.toLowerCase().includes(inputValue.toLowerCase())
+        .filter(
+          (country) =>
+            checkedCountries.includes(country.name) &&
+            !removedCountries.includes(country.name)
+        )
+        .concat(
+          countries.filter(
+            (country) =>
+              country.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+              !checkedCountries.includes(country.name) &&
+              !removedCountries.includes(country.name)
+          )
         )
         .map((country) => <Country country={country} key={country.name} />),
-    [countries, inputValue]
+    [checkedCountries, countries, inputValue, removedCountries]
   );
 
   return (

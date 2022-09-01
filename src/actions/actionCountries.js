@@ -21,3 +21,14 @@ export const dataResponseIsFetchingFalseAC = () => ({
 export const setInputValueAC = (value) => ({
   type: ACTIONS_TYPES.SET_INPUT_VALUE, value
 });
+
+export const setCheckedCountryAC = (name, isAdd) => ({
+  type: ACTIONS_TYPES.SET_CHECKED_COUNTRY,
+  name,
+  isAdd,
+});
+
+export const setRemovedCountryAC = (name) => ({
+  type: ACTIONS_TYPES.SET_REMOVED_COUNTRY,
+  name,
+});

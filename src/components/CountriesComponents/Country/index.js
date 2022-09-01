@@ -5,18 +5,29 @@ import { connect } from "react-redux";
 import CONSTANTS from "../../../constants";
 
 import styles from "./Country.module.scss";
+import {
+  setCheckedCountryAC,
+  setRemovedCountryAC,
+} from "../../../actions/actionCountries";
 
 const { THEMES } = CONSTANTS;
 
 const Country = (props) => {
   const {
     theme: { theme },
+    countries: { checkedCountries },
+    setCheckedCountry,
+    setRemovedCountry,
   } = props;
   const { name, flags, population, region, capital } = props.country;
+  const valueChecked = checkedCountries.includes(name);
 
   const stylesCountryCard = cx(styles.card, {
     [styles.bg_light_theme]: theme === THEMES.LIGHT,
     [styles.bg_dark_theme]: theme === THEMES.DARK,
+  });
+  const stylesControlBox = cx(styles.card_control_box, {
+    [styles.card_control_box_active]: valueChecked,
   });
 
   return (
@@ -35,6 +46,30 @@ const Country = (props) => {
         <p className={styles.card_population}>
           Population: <span>{population}</span>
         </p>
+        <div
+          className={stylesControlBox}
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          <input
+            id={name}
+            className={styles.card_checkbox}
+            name={name}
+            type="checkbox"
+            checked={valueChecked}
+            onChange={() => setCheckedCountry(name, !valueChecked)}
+          />
+          <label className={styles.card_checkbox_label} htmlFor={name}>
+            Choose country:
+          </label>
+          <button
+            className={styles.card_btn_remove}
+            onClick={() => setRemovedCountry(name)}
+          >
+            X
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -42,4 +77,10 @@ const Country = (props) => {
 
 const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps)(Country);
+const mapDispatchToProps = (dispatch) => ({
+  setCheckedCountry: (name, isAdd) =>
+    dispatch(setCheckedCountryAC(name, isAdd)),
+  setRemovedCountry: (name) => dispatch(setRemovedCountryAC(name)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Country);
