@@ -25,7 +25,6 @@ const Country = (props) => {
 
   const valueChecked = checkedCountries.includes(name);
 
-
   const stylesCountryCard = cx(styles.card, {
     [styles.bg_light_theme]: theme === THEMES.LIGHT,
     [styles.bg_dark_theme]: theme === THEMES.DARK,

@@ -20,7 +20,7 @@ const { THEMES } = CONSTANTS;
 const CountryInfo = (props) => {
   const {
     theme: { theme },
-    countryInfo: { country = {}, error, isFetching },
+    countryInfo: { country, error, isFetching },
     dataResponseSuccess,
     dataResponseError,
     dataResponseIsFetchingTrue,

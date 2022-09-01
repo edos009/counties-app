@@ -22,7 +22,7 @@ const Countries = (props) => {
   const {
     theme: { theme },
     countries: {
-      countries = [],
+      countries,
       error,
       isFetching,
       inputValue,
@@ -68,7 +68,9 @@ const Countries = (props) => {
   };
 
   useEffect(() => {
-    load();
+    if (!countries.length) {
+      load();
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -77,20 +79,25 @@ const Countries = (props) => {
       countries
         .filter(
           (country) =>
-            checkedCountries.includes(country.name) &&
-            !removedCountries.includes(country.name)
+            checkedCountries.includes(country.name) ||
+            ((inputValue
+              ? country.name.toLowerCase().includes(inputValue.toLowerCase())
+              : true) &&
+              !removedCountries.includes(country.name))
         )
-        .concat(
-          countries.filter(
-            (country) =>
-              country.name.toLowerCase().includes(inputValue.toLowerCase()) &&
-              !checkedCountries.includes(country.name) &&
-              !removedCountries.includes(country.name)
-          )
+        .sort((a, b) =>
+          checkedCountries.includes(a.name) &&
+          !checkedCountries.includes(b.name)
+            ? -1
+            : 1
         )
         .map((country) => <Country country={country} key={country.name} />),
     [checkedCountries, countries, inputValue, removedCountries]
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <section className={stylesCountries}>
