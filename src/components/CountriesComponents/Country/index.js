@@ -37,7 +37,7 @@ const Country = (props) => {
   return (
     <article
       className={stylesCountryCard}
-      onClick={() => navigateCountry(`/countries/${name}`)}
+      onClick={() => navigateCountry(`/countries/${name.toLowerCase()}`)}
     >
       <div className={styles.card_box_img}>
         <img className={styles.card_img} src={flags.png} alt={name} />

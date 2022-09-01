@@ -73,7 +73,7 @@ const CountryInfo = (props) => {
   useEffect(() => {
     load();
     // eslint-disable-next-line
-  }, [id]);
+  }, []);
 
   const setBorderCountries = (border, i) => (
     <li className={styles.country_border_countries_item} key={i}>
