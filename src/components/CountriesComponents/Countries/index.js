@@ -22,7 +22,7 @@ const Countries = (props) => {
   const {
     theme: { theme },
     countries: {
-      countries,
+      countries = [],
       error,
       isFetching,
       inputValue,

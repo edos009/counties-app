@@ -1,14 +1,15 @@
 import React from "react";
 import cx from "classnames";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import CONSTANTS from "../../../constants";
-
-import styles from "./Country.module.scss";
 import {
   setCheckedCountryAC,
   setRemovedCountryAC,
 } from "../../../actions/actionCountries";
+
+import styles from "./Country.module.scss";
 
 const { THEMES } = CONSTANTS;
 
@@ -20,7 +21,10 @@ const Country = (props) => {
     setRemovedCountry,
   } = props;
   const { name, flags, population, region, capital } = props.country;
+  const navigateCountry = useNavigate();
+
   const valueChecked = checkedCountries.includes(name);
+
 
   const stylesCountryCard = cx(styles.card, {
     [styles.bg_light_theme]: theme === THEMES.LIGHT,
@@ -31,7 +35,10 @@ const Country = (props) => {
   });
 
   return (
-    <article className={stylesCountryCard}>
+    <article
+      className={stylesCountryCard}
+      onClick={() => navigateCountry(`/countries/${name}`)}
+    >
       <div className={styles.card_box_img}>
         <img className={styles.card_img} src={flags.png} alt={name} />
       </div>
