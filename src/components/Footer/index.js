@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import cx from 'classnames';
 
 import CONSTANTS from "../../constants";
@@ -8,8 +8,8 @@ import styles from "./Footer.module.scss";
 
 const {THEMES} = CONSTANTS;
 
-const Footer = (props) => {
-  const {theme} = props;
+const Footer = () => {
+  const theme = useSelector(state => state.theme.theme)
 
   const stylesFooter = cx(
     styles.footer,
@@ -36,6 +36,4 @@ const Footer = (props) => {
   );
 };
 
-const mapStateToProps = ({ theme }) => theme;
-
-export default connect(mapStateToProps)(Footer);
+export default Footer;

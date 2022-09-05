@@ -4,12 +4,12 @@ import cx from "classnames";
 import CONSTANTS from "../../../constants";
 
 import styles from "./Home.module.scss";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const { THEMES } = CONSTANTS;
 
-const Home = (props) => {
-  const { theme } = props;
+const Home = () => {
+  const theme = useSelector(state => state.theme.theme)
 
   const stylesHome = cx(
     styles.home,
@@ -33,6 +33,4 @@ const Home = (props) => {
   );
 };
 
-const mapStateToProps = ({ theme }) => theme;
-
-export default connect(mapStateToProps)(Home);
+export default Home;

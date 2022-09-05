@@ -1,11 +1,12 @@
-import { compose, legacy_createStore } from "redux";
-import rootReducer from "../reducers/rootReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import countriesReducer from "./countriesReducer";
+import countryInfoReducer from "./countryInfoReducer";
+import themeReducer from "./themeReducer";
 
-const store = legacy_createStore(
-  rootReducer,
-  compose(
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
-);
-
-export default store;
+export default configureStore({
+  reducer: {
+    theme: themeReducer,
+    countries: countriesReducer,
+    countryInfo: countryInfoReducer,
+  },
+});

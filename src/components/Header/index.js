@@ -1,20 +1,21 @@
 import React from "react";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cx from 'classnames'
 
 import Logo from "../Logo";
 import Navigation from "../Navigation";
-import { setThemeAC } from "../../actions/actionTheme";
 import CONSTANTS from "../../constants";
 
 import styles from "./Header.module.scss";
+import { setTheme } from "../../store/themeReducer";
 
 const {THEMES} = CONSTANTS;
 
-const Header = (props) => {
-  const { theme, setTheme } = props;
+const Header = () => {
+  const theme = useSelector(state => state.theme.theme);
+  const dispatch = useDispatch();
 
   const stylesHeader = cx(
     styles.header,
@@ -34,7 +35,7 @@ const Header = (props) => {
         <div className={styles.header_inner}>
           <Logo />
           <Navigation />
-          <div className={styles.box_theme} onClick={() => setTheme()}>
+          <div className={styles.box_theme} onClick={() => dispatch(setTheme())}>
             {theme === THEMES.DARK ? (
               <DarkModeIcon className={styles.btn_theme} />
             ) : (
@@ -47,10 +48,4 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = ({ theme }) => theme;
-
-const mapDispatchToProps = (dispatch) => ({
-  setTheme: () => dispatch(setThemeAC())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

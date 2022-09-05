@@ -7,3 +7,4 @@ export const loadCountry = (id) => {
     res.json()
   );
 };
+

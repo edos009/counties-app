@@ -1,24 +1,24 @@
 import React, { useCallback, useEffect } from "react";
 import cx from "classnames";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Country from "../Country";
 import CONSTANTS from "../../../constants";
-import {
-  dataResponseErrorAC,
-  dataResponseIsFetchingFalseAC,
-  dataResponseIsFetchingTrueAC,
-  dataResponseSuccessAC,
-  setInputValueAC,
-} from "../../../actions/actionCountries";
 import { loadCountries } from "../../../api";
 import Spinner from "../../Spinner";
 
 import styles from "./Countries.module.scss";
+import {
+  dataResponseError,
+  dataResponseIsFetchingFalse,
+  dataResponseIsFetchingTrue,
+  dataResponseSuccess,
+  setValueInput,
+} from "../../../store/countriesReducer";
 
 const { THEMES } = CONSTANTS;
 
-const Countries = (props) => {
+const Countries = () => {
   const {
     theme: { theme },
     countries: {
@@ -29,12 +29,8 @@ const Countries = (props) => {
       checkedCountries,
       removedCountries,
     },
-    dataResponseSuccess,
-    dataResponseError,
-    dataResponseIsFetchingFalse,
-    dataResponseIsFetchingTrue,
-    setValueInput,
-  } = props;
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const stylesCountries = cx(
     styles.countries,
@@ -60,11 +56,11 @@ const Countries = (props) => {
   );
 
   const load = () => {
-    dataResponseIsFetchingTrue();
+    dispatch(dataResponseIsFetchingTrue());
     loadCountries()
-      .then((countries) => dataResponseSuccess(countries))
-      .catch((error) => dataResponseError(error))
-      .finally(() => dataResponseIsFetchingFalse());
+      .then((countries) => dispatch(dataResponseSuccess({ countries })))
+      .catch((error) => dispatch(dataResponseError({ error })))
+      .finally(() => dispatch(dataResponseIsFetchingFalse()));
   };
 
   useEffect(() => {
@@ -79,17 +75,16 @@ const Countries = (props) => {
       countries
         .filter(
           (country) =>
-            checkedCountries.includes(country.name) ||
-            ((inputValue
-              ? country.name.toLowerCase().includes(inputValue.toLowerCase())
-              : true) &&
-              !removedCountries.includes(country.name))
+            checkedCountries.includes(country.name) &&
+            !removedCountries.includes(country.name)
         )
-        .sort((a, b) =>
-          checkedCountries.includes(a.name) &&
-          !checkedCountries.includes(b.name)
-            ? -1
-            : 1
+        .concat(
+          countries.filter(
+            (country) =>
+              country.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+              !checkedCountries.includes(country.name) &&
+              !removedCountries.includes(country.name)
+          )
         )
         .map((country) => <Country country={country} key={country.name} />),
     [checkedCountries, countries, inputValue, removedCountries]
@@ -108,7 +103,9 @@ const Countries = (props) => {
             className={stylesCountriesInput}
             type="text"
             value={inputValue}
-            onChange={({ target: { value } }) => setValueInput(value)}
+            onChange={({ target: { value } }) =>
+              dispatch(setValueInput({ value }))
+            }
             placeholder="Search..."
           />
           {isFetching ? (
@@ -124,15 +121,4 @@ const Countries = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = (dispatch) => ({
-  dataResponseSuccess: (countries) =>
-    dispatch(dataResponseSuccessAC(countries)),
-  dataResponseError: (error) => dispatch(dataResponseErrorAC(error)),
-  dataResponseIsFetchingFalse: () => dispatch(dataResponseIsFetchingFalseAC()),
-  dataResponseIsFetchingTrue: () => dispatch(dataResponseIsFetchingTrueAC()),
-  setValueInput: (value) => dispatch(setInputValueAC(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Countries);
+export default Countries;

@@ -1,13 +1,13 @@
 import React from "react";
 import cx from "classnames";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import CONSTANTS from "../../../constants";
 import {
-  setCheckedCountryAC,
-  setRemovedCountryAC,
-} from "../../../actions/actionCountries";
+  setCheckedCountry,
+  setRemovedCountry,
+} from "../../../store/countriesReducer";
 
 import styles from "./Country.module.scss";
 
@@ -17,9 +17,9 @@ const Country = (props) => {
   const {
     theme: { theme },
     countries: { checkedCountries },
-    setCheckedCountry,
-    setRemovedCountry,
-  } = props;
+  } = useSelector(state => state);
+  const dispatch = useDispatch();
+  
   const { name, flags, population, region, capital } = props.country;
   const navigateCountry = useNavigate();
 
@@ -64,14 +64,16 @@ const Country = (props) => {
             name={name}
             type="checkbox"
             checked={valueChecked}
-            onChange={() => setCheckedCountry(name, !valueChecked)}
+            onChange={() =>
+              dispatch(setCheckedCountry({ name, valueChecked: !valueChecked }))
+            }
           />
           <label className={styles.card_checkbox_label} htmlFor={name}>
             Choose country:
           </label>
           <button
             className={styles.card_btn_remove}
-            onClick={() => setRemovedCountry(name)}
+            onClick={() => dispatch(setRemovedCountry({name}))}
           >
             X
           </button>
@@ -81,12 +83,4 @@ const Country = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = (dispatch) => ({
-  setCheckedCountry: (name, isAdd) =>
-    dispatch(setCheckedCountryAC(name, isAdd)),
-  setRemovedCountry: (name) => dispatch(setRemovedCountryAC(name)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Country);
+export default Country;

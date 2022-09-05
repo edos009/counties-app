@@ -1,34 +1,31 @@
 import React, { useEffect } from "react";
 import cx from "classnames";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import CONSTANTS from "../../../constants";
 import Spinner from "../../Spinner";
 import {
-  dataResponseSuccessAC,
-  dataResponseErrorAC,
-  dataResponseIsFetchingFalseAC,
-  dataResponseIsFetchingTrueAC,
-} from "../../../actions/actionCountryInfo";
-import { loadCountry } from "../../../api";
+  dataInfoResponseError,
+  dataInfoResponseIsFetchingFalse,
+  dataInfoResponseIsFetchingTrue,
+  dataInfoResponseSuccess,
+} from "../../../store/countryInfoReducer";
 
 import styles from "./CountryInfo.module.scss";
 
 const { THEMES } = CONSTANTS;
 
-const CountryInfo = (props) => {
+const CountryInfo = () => {
   const {
     theme: { theme },
     countryInfo: { country, error, isFetching },
-    dataResponseSuccess,
-    dataResponseError,
-    dataResponseIsFetchingTrue,
-    dataResponseIsFetchingFalse,
-  } = props;
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const { id } = useParams();
   const navigateCountry = useNavigate();
+  console.log({ country });
 
   const {
     name,
@@ -62,12 +59,23 @@ const CountryInfo = (props) => {
     [styles.color_dark_theme]: theme === THEMES.LIGHT,
   });
 
-  const load = () => {
-    dataResponseIsFetchingTrue();
-    loadCountry(id)
-      .then((country) => dataResponseSuccess(country))
-      .catch((error) => dataResponseError(error))
-      .finally(() => dataResponseIsFetchingFalse());
+  const load = async () => {
+    // dataResponseIsFetchingTrue();
+    // loadCountry(id)
+    //   .then((country) => dataResponseSuccess(country))
+    //   .catch((error) => dataResponseError(error))
+    //   .finally(() => dataResponseIsFetchingFalse());
+
+    try {
+      dispatch(dataInfoResponseIsFetchingTrue());
+      const res = await fetch(`https://restcountries.com/v2/name/${id}`);
+      const country = await res.json();
+      dispatch(dataInfoResponseSuccess({ country: country[0] }));
+    } catch (error) {
+      dispatch(dataInfoResponseError({ error }));
+    } finally {
+      dispatch(dataInfoResponseIsFetchingFalse());
+    }
   };
 
   useEffect(() => {
@@ -148,13 +156,4 @@ const CountryInfo = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = (dispatch) => ({
-  dataResponseSuccess: (country) => dispatch(dataResponseSuccessAC(country)),
-  dataResponseError: (error) => dispatch(dataResponseErrorAC(error)),
-  dataResponseIsFetchingFalse: () => dispatch(dataResponseIsFetchingFalseAC()),
-  dataResponseIsFetchingTrue: () => dispatch(dataResponseIsFetchingTrueAC()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CountryInfo);
+export default CountryInfo;
