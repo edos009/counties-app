@@ -8,5 +8,5 @@ export default configureStore({
     theme: themeReducer,
     countries: countriesReducer,
     countryInfo: countryInfoReducer,
-  },
+  }
 });
